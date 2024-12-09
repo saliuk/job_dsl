@@ -5,7 +5,7 @@ job('SeedJob') {
         git {
             remote {
                 url('git@github.com:saliuk/job_dsl.git')
-                credentials('git-credentials-id')
+                credentials('github-ssh')
             }
             branch('master')
         }
@@ -23,6 +23,6 @@ job('SeedJob') {
     }
     
     publishers {
-        mailer('admin@example.com', false, true) // Email about the status of the execution
+        mailer('iwan.salyuk@gmail.com', false, true) // Email about the status of the execution
     }
 }
