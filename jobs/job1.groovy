@@ -1,6 +1,6 @@
 job('job1') {
-    description('This is Job 1 at the root level.')
+    description('This is Job 1 at the root level. It runs script1.sh from the scripts folder.')
     steps {
-        shell('echo "Running Job 1 at the root level"')
+        shell('bash ${WORKSPACE}/scripts/script1.sh')
     }
 }
