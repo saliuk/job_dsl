@@ -1,12 +1,6 @@
-job('Example-Job-4') {
-    description('This is an example job created by Job DSL.')
-//    scm {
-//        git('https://github.com/your-repo.git', 'master')
-//    }
-    triggers {
-        cron('H/15 * * * *')
-    }
+job('JOB_FOLDER_1/JOB_FOLDER_1.2/job_4') {
+    description('This is job 4 in JOB_FOLDER_1.2.')
     steps {
-        shell('echo "Hello, World JOB_4!"')
+        shell('echo "Running job 4 in JOB_FOLDER_1.2"')
     }
 }

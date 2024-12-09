@@ -1,12 +1,6 @@
-job('Example-Job-2') {
-    description('This is an example job created by Job DSL.')
-//    scm {
-//        git('https://github.com/your-repo.git', 'master')
-//    }
-    triggers {
-        cron('H/15 * * * *')
-    }
+job('job2') {
+    description('This is job 2 at the root level.')
     steps {
-        shell('echo "Hello, World JOB_2!"')
+        shell('echo "Running job 2 at the root level"')
     }
 }
