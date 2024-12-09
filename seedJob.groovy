@@ -1,6 +1,6 @@
 job('SeedJob') {
-    description('This job creates other jobs using Job DSL scripts from the repository.')
-    
+    description('This job processes the repository structure and creates folders and jobs using Job DSL.')
+
     scm {
         git {
             remote {
@@ -10,19 +10,48 @@ job('SeedJob') {
             branch('master')
         }
     }
-    
+
     triggers {
-        scm('H/15 * * * *')
+        scm('H/15 * * * *') // Poll for changes every 15 minutes
     }
-    
+
     steps {
         dsl {
-            external('jobs/**/*.groovy') // Executes all Job DSL scripts in the jobs folder
-            removeAction('DELETE')      // Deletes jobs that are no longer described in the DSL
+            // Process the structure of the repository
+            text('''
+                import groovy.io.FileType
+
+                // Function to recursively create folders and jobs
+                def createFolderStructure(basePath, currentPath = '') {
+                    new File(basePath).eachDir { dir ->
+                        def folderName = currentPath ? "${currentPath}/${dir.name}" : dir.name
+                        folder(folderName) {
+                            description("Folder for ${folderName}")
+                        }
+                        createFolderStructure(dir.absolutePath, folderName)
+                    }
+
+                    // Create jobs in the current folder
+                    new File(basePath).eachFileMatch(FileType.FILES, ~/.*\\.groovy/) { file ->
+                        def jobName = file.name - '.groovy'
+                        def jobPath = currentPath ? "${currentPath}/${jobName}" : jobName
+                        job(jobPath) {
+                            description("Job created from ${file.name}")
+                            steps {
+                                shell("echo Running job ${jobName}")
+                            }
+                        }
+                    }
+                }
+
+                // Start processing from the root folder in the workspace
+                createFolderStructure("${WORKSPACE}/jobs")
+            ''')
+            removeAction('DELETE') // Removes jobs not described in the DSL
         }
     }
-    
+
     publishers {
-        mailer('iwan.salyuk@gmail.com', false, true) // Email about the status of the execution
+        mailer('iwan.salyuk@gmail.com', false, true) // Send email notifications
     }
 }
