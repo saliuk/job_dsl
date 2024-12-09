@@ -1,0 +1,10 @@
+.
+├── jobs
+│   ├── job1.groovy
+│   ├── job2.groovy
+│   └── JOB_FOLDER_1
+│       └── job_3.groovy
+├── seedJob.groovy
+└── structure.txt
+
+3 directories, 5 files

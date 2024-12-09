@@ -7,7 +7,7 @@ job('SeedJob') {
                 url('git@github.com:saliuk/job_dsl.git')
                 credentials('github-ssh')
             }
-            branch('master') // Ваша гілка
+            branch('master')
         }
     }
 
@@ -17,7 +17,7 @@ job('SeedJob') {
 
     steps {
         dsl {
-            external('**/*.groovy')
+            external('jobs/**/*.groovy')
             removeAction('DELETE')
         }
     }
