@@ -20,6 +20,8 @@ job('SeedJob') {
             external('jobs/**/*.groovy')
             removeAction('DELETE')
         }
+
+        shell('cp -R ${WORKSPACE}/scripts/* ${JENKINS_HOME}/workspace')
     }
 
     publishers {
